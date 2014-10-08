@@ -166,7 +166,7 @@ implicit Monte Carlo code for one-dimensional gray test problems.
 Thermal radiative transfer (TRT) physics are relevant in many high-temperature physical applications,
 e.g., inertial confinement fusion and supernovae.  Such problems feature a strong
 coupling between between the material and radiation energy balance equations, as well
-as non-linear temperature dependence.  TRT problems often require solutions in a mix of
+as non-linear material and source term temperature dependences.  TRT problems often require solutions in a mix of
 streaming and diffusive regions of the problem due to absorption-reemission physics
 and opacity temperature dependencies. The diffusive regions are time
 consuming to solve with higher-rank transport solutions and can be accurately
@@ -201,7 +201,7 @@ directly from the transport equation, using a linear-discontinuous (LD)
 finite-element (FE) spatial
 discretization, such that the
 HO and LO solutions are consistent upon convergence. The LD spatial representation
-mitigates issues with particles moving faster than the speed of light by providing an
+mitigates issues with energy propagating faster than the speed of light by providing an
 accurate spatial representation of the Planckian emission term within a cell.  We
 present results for various Marshak wave test problems and reference are results
 against IMC.
@@ -211,22 +211,24 @@ against IMC.
 \Subsection{Governing Equations} 
 
 We have implemented a high-order low-order (HOLO) algorithm for the case of gray, one spatial dimension
-thermal radiative transfer problems. The governing equations are the radiation and
+TRT problems. For simplicity, we will also consider constant density and specific
+heats throughout.  The governing equations are the radiation and
 material energy balance equations, i.e.,
 \begin{align}
-\pderiv{I}{t} + \mu \pderiv{I^{n+1}}{x} + \sigma_t I
-&= \frac{\sigma_s}{2} \phi^{n+1} +\frac{1}{2} \left(\sigma_a a c T^4
-\right)^{n+1} + \frac{I^n}{\Delta_t c}  \\
-\rho c_v \frac{T^{n+1} - T^n}{\Delta t} &= \int_{-1}^{1} \sigma_a I^{n+1}(x,\mu)
-\d\mu - \sigma_a a c (T^4)^{n+1} .
+    \frac{1}{c}\pderiv{I}{t} + \mu \pderiv{I}{x} + \sigma_t I
+&= \frac{\sigma_s}{2} \phi +\frac{1}{2} \sigma_a a c T^4
+  \\
+  \rho c_v \pderiv{T}{t} &= \int_{-1}^{1} \sigma_a I^{n+1}(x,\mu)
+\d\mu - \sigma_a a c (T^4),
 \end{align}
 where $\phi(x) = \int_{-1}^1 I(x,\mu) \d \mu$ is the scalar radiation intensity,
 related to the energy density $E(x)=\phi(x)/c$. Here, $x$ is the position,  $\mu$ is
-the $x$-direction cosine, $a$, $c$, $\rho$, $c_v$,  radiation
-constant, $c$ is the speed of light, $\rho$ is the mass density, $c_v$ is the specific heat, $\Delta t$ is the time step size, and $\sigma_a$, $\sigma_s$ and $\sigma_t$ are the absorption, scattering, and total
+the $x$-direction cosine, and $a$, $c$, $\rho$, $c_v$, $\sigma_a$, $\sigma_s$, and
+$\sigma_t$ are the radiation constant, speed of light, mass density, specific heat, absorption, scattering, and total
 opacities (cm$^{-1}$), respectively.  The desired fundamental unknowns are the material
-temperature $T$ and radiation intensity $I$.  In general, the material properties are a function of material temperature.
-The equations are strongly coupled through the gray Planckian emission source
+temperature $T(x)$ and radiation intensity $I(x,\mu)$.  In general, the material
+properties are a function of $T$.
+The equations are coupled through the gray Planckian emission source
 $\sigma_a a c T^4$ and absorption term $\sigma_a \phi$.  
 The notation of the scalar intensity $\phi$ is used throughout rather than the
 typical radiation energy density $E=\phi(x)/c$.
@@ -249,7 +251,7 @@ equations are
 \begin{align}
 \mu \pderiv{I^{n+1}}{x} + \left(\sigma_t + \frac{1}{c \Delta t }\right) I^{n+1}
 &= \frac{\sigma_s}{2} \phi^{n+1} +\frac{1}{2} \left(\sigma_a a c T^4
-\right)^{n+1} + \frac{I^n}{\Delta_t c} \label{ho_trans} \\
+\right)^{n+1} + \frac{I^n}{\Delta t c} \label{ho_trans} \\
 \rho c_v \frac{T^{n+1} - T^n}{\Delta t} &= \int_{-1}^{1} \sigma_a I^{n+1}(x,\mu)
 \d\mu - \sigma_a a c (T^4)^{n+1} \label{lo_mat}.
 \end{align}
@@ -264,9 +266,10 @@ consistency terms in the LO system to correctly solve the problem.
 In the HOLO context, the LO solver handles the physical scattering and
 resolves the material energy spatial distribution.  The LO equations are based on
 angular integrals and spatial moments formed over a finite element mesh of
-Eq.~\eqref{lo_mat} and Eq.~\eqref{ho_trans}. The LO radiation equations are similar to
+Eq.~\eqref{lo_mat} and Eq.~\eqref{ho_trans}. The LO equations for the radiation
+energy balance are similar to
 double-$P_0$ equations, but with
-spatially-dependent angular consistency parameters that are analogous to a variable
+spatially varying consistency parameters that are analogous to a variable
 Eddington factor.  These consistency parameters are lagged in each LO solve,
 estimated from the previous HO solve.  
 If the angular consistency parameters were estimated exactly, then the LO equations are exact with respect to the chosen
@@ -294,37 +297,21 @@ consistency parameters for the next LO solve.  Since there is a global, function
 the angular intensity,  LO parameters are estimated using quadrature and do not require additional tallies.  The HO solver does not
 produce a new temperature in the thermal radiative transport (TRT) context; it is
 only used to estimate the angular parameters in the LO solution, which eliminates
-the non-linear stability issues that require linearization of the Planckian.
+typical operator splitting stability issues that require linearization of the emission source.
 The process of a LO estimate of the transport sources for the HO solver, followed by
 an ECMC
 solve to estimate LO parameters, represents one HOLO fixed-point iteration.
 The consistency terms force the HO
 and LO solutions for $\phi(x)$ to be consistent to the order of the current HOLO
-iteration error.  
-
+iteration error.  The solution for $T(x)$ is only estimated via the LO solution
+(which preserves the accuracy of the HO solution). 
 The HOLO iterations are performed until the solutions are converged to a
-desired precision before moving on to the next time step. Currently, the HOLO convergence criteria is based on
+desired precision, within each time step.  Currently, the HOLO convergence criteria is based on
 the convergence of the FE representation of $\phi(x)$ between successive HOLO iterations
 $k$.  
 
-The LO solution is used to construct a spatially LD representation of the right
-hand side of Eq.~\eqref{ho_trans}, defined as  $q$ for later reference.  This defines a fixed-source, pure absorber
-transport problem for the HO operator.  The HO transport problem is solved using ECMC with adaptive mesh
-refinement.  The HO problem defines a characteristic method that uses MC to
-invert the continuous streaming plus removal operator with an LD representation of $q$.  The ECMC algorithm allows for the statistical noise in the MC
-solution to be reduced to any desired precision within the limits of computational memory and
-roundoff.  Thus, the HO solve produces a
-globally-accurate, LD representation of the angular flux
-$\tilde{\psi}(x,\mu)$.  Here, we emphasize that the ECMC algorithm computes a
-projection of the exact solution onto a LDFE space-angle trial space, rather than a
-standard FE solution.  This is in general far
-more accurate than a standard FE solution.  Once computed, the projected
-angular flux $\tilde{\psi}(x,\mu)$ is used to evaluate the LO
-consistency parameters for the next LO solve.  
 
-Because we have only considered problems with constant densities and heat capacities, the following
-derivation is depicted in terms of temperature $T$ rather than material energy
-for simplicity.  
+
 
 \Section{The Low-Order Solver for the Radiative Transfer Equations}
 
@@ -599,7 +586,9 @@ The same upwinding as before is used for this discretization.
 
 We have used Newton's method to solve the global system of coupled LO
 equations, based on a typical linearization of the Planckian source with opacities
-evaluated at lagged temperatures. Application of the first order Taylor expansion in time of the
+evaluated at lagged temperatures. Because we have only considered problems with constant densities and heat capacities, the following
+derivation is depicted in terms of temperature $T$ rather than material energy
+for simplicity.  Application of the first order Taylor expansion in time of the
 gray emission source $B(T)$, about some temperature $T^*$ at some
 time near $t^{n+1}$ gives
 \begin{equation}\label{new_planck}
@@ -757,7 +746,7 @@ For reference, for Eq.~\eqref{ho_trans} the residual at iteration $i$ in the HO 
 is
 \begin{equation}
 r^{(i),k+1/2} = \frac{\sigma_s}{2} \phi_{LD}^{n+1,k} +\frac{1}{2} \left(\sigma_a^* a T^4
-\right)_{LD}^{n+1,k} + \frac{\tilde{I}^n}{\Delta_t c} -
+\right)_{LD}^{n+1,k} + \frac{\tilde{I}^n}{\Delta t c} -
 \left(\pderiv{\tilde{I}^{n+1,k+1/2}}{x} +
 \left(\sigma_t + \frac{1}{c \Delta t }\right) \tilde{I}^{n+1,k+1/2}\right)^{(i)}
 \end{equation}
