@@ -454,7 +454,7 @@ discretization. This closure is only used in cells in which negativities occur.
 
 We have used Newton's method to solve the global system of coupled LO
 equations, based on a typical linearization of the Planckian source with opacities
-evaluated at lagged temperatures.  Application of the first order Taylor expansion in time of the
+evaluated at lagged temperatures, as described in~\cite{morel_newton}.  Application of the first order Taylor expansion in time of the
 gray emission source $B(T)$, about some temperature $T^*$ at some
 time near $t^{n+1}$ gives
 \begin{equation}\label{new_planck}
@@ -463,15 +463,8 @@ time near $t^{n+1}$ gives
 where the superscript $*$ denotes evaluation at $T^*$. This expression is substituted for the
 emission term in the time discretized material
 energy equation given by Eq.~\eqref{mat_eq}.  The resulting equation is manipulated
-further to solve for $T^{n+1}$
-\begin{equation}
- T^{n+1}  = \frac{ {\displaystyle \frac{\sigma_a^* \Delta t}{\rho
-c_v}}  \left[ \phi^{n+1} -  a c T^{*4} \right] + (T^n - T^*) }{1 +
-        \sigma_a^* a c \Delta t\frac{\displaystyle 4
-T^{*3}}{\displaystyle \rho c_v } } + T^*.
-\end{equation}
-This provides an explicit expression for $T^{n+1}$ as a
-function of $T^*$ and the radiation scalar intensity $\phi^{n+1}$, i.e.,
+to provide an explicit expression for $T^{n+1}$ as a
+function of $T^*$ and an effective scattering source
 \begin{equation}
 \label{lo_t_new}
 T^{n+1}  = \frac{1}{\rho c_v } f\sigma_a^* \Delta t \left( \phi^{n+1} - c a T^{*4} \right)
@@ -486,7 +479,6 @@ an explicit approximation for the emission source at $t_{n+1}$ as
     \sigma_a a c T^{4,n+1} \simeq \sigma_a^* (1 -f^*) \phi^{n+1}
     + f^* \sigma_a^* a c T^{4,n} + \rho c_v\frac{1-f^*}{\Delta t} (T^N - T^*)
 \end{equation}
-The material temperature is updated at the end of the time step using Eq.~\ref{lo_t_new}. 
 
 Based on a guess for $T^*$, the above equation gives an expression for
 the Planckian emission source in the right hand side
