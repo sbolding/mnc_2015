@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.28)  7 OCT 2014 20:23
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.28)  11 OCT 2014 15:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -440,17 +440,7 @@ File: pgfmodulematrix.code.tex 2010/08/24  (rcs-revision 1.4)
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopat
 hs.code.tex
 File: tikzlibrarytopaths.code.tex 2008/06/17 v2.10 (rcs-revision 1.2)
-))) (./mnc2015.aux
-
-LaTeX Warning: Label `left' multiply defined.
-
-
-LaTeX Warning: Label `left_mom' multiply defined.
-
-
-LaTeX Warning: Label `consist' multiply defined.
-
-)
+))) (./mnc2015.aux)
 \openout1 = `mnc2015.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
@@ -466,7 +456,8 @@ LaTeX Font Info:    ... okay on input line 75.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
 LaTeX Font Info:    ... okay on input line 75.
 LaTeX Font Info:    Try loading font information for OT1+ptm on input line 75.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
@@ -537,16 +528,16 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 108.
 
 
-LaTeX Warning: Citation `rmc' on page 1 undefined on input line 178.
+LaTeX Warning: Citation `rmc' on page 1 undefined on input line 180.
 
 
-LaTeX Warning: Citation `jake' on page 1 undefined on input line 197.
+LaTeX Warning: Citation `jake' on page 1 undefined on input line 199.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 208.
+LaTeX Font Info:    Try loading font information for U+msa on input line 210.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 208.
+LaTeX Font Info:    Try loading font information for U+msb on input line 210.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -561,79 +552,86 @@ Package Fancyhdr Warning: \headheight is too small (14.0pt):
 
 ]
 
-LaTeX Warning: Citation `fnc' on page 2 undefined on input line 237.
+LaTeX Warning: Citation `fnc' on page 2 undefined on input line 239.
 
-[2] [3] [4] [5] [6] [7]
+[2] [3] [4] [5]
 
-LaTeX Warning: Reference `mat_eq' on page 8 undefined on input line 599.
+LaTeX Warning: Reference `mat_eq' on page 6 undefined on input line 467.
 
-[8]
+[6]
 
-LaTeX Warning: Reference `new_temp' on page 9 undefined on input line 665.
+LaTeX Warning: Reference `new_temp' on page 7 undefined on input line 523.
 
-[9] [10] [11] [12] <figures/constant.pdf, id=58, 496.85625pt x 393.47pt>
+
+LaTeX Warning: Citation `jake_thesis' on page 7 undefined on input line 532.
+
+[7] [8]
+
+LaTeX Warning: Citation `cwd' on page 9 undefined on input line 658.
+
+
+LaTeX Warning: Reference `ans_2014' on page 9 undefined on input line 730.
+
+[9] <figures/constant.pdf, id=49, 496.85625pt x 393.47pt>
 File: figures/constant.pdf Graphic file (type pdf)
 
 <use figures/constant.pdf>
-Package pdftex.def Info: figures/constant.pdf used on input line 922.
+Package pdftex.def Info: figures/constant.pdf used on input line 757.
 (pdftex.def)             Requested size: 281.85585pt x 223.21153pt.
-
-<figures/twomat_holo_quick.pdf, id=59, 495.8525pt x 392.46625pt>
+ [10 <./figures/constant.pdf>]
+<figures/twomat_holo_quick.pdf, id=99, 495.8525pt x 392.46625pt>
 File: figures/twomat_holo_quick.pdf Graphic file (type pdf)
 
 <use figures/twomat_holo_quick.pdf>
-Package pdftex.def Info: figures/twomat_holo_quick.pdf used on input line 954.
+Package pdftex.def Info: figures/twomat_holo_quick.pdf used on input line 789.
 (pdftex.def)             Requested size: 277.15372pt x 219.36638pt.
 
-<figures/twomat_full.pdf, id=60, 509.37424pt x 407.44408pt>
+<figures/twomat_full.pdf, id=100, 509.37424pt x 407.44408pt>
 File: figures/twomat_full.pdf Graphic file (type pdf)
 
 <use figures/twomat_full.pdf>
-Package pdftex.def Info: figures/twomat_full.pdf used on input line 959.
+Package pdftex.def Info: figures/twomat_full.pdf used on input line 794.
 (pdftex.def)             Requested size: 277.15372pt x 221.70135pt.
- [13 <./figures/constant.pdf>] [14 <./figures/twomat_holo_quick.pdf>]
-<figures/marshak_holo_ld.pdf, id=164, 517.40427pt x 407.44408pt>
+ [11 <./figures/twomat_holo_quick.pdf>]
+<figures/marshak_holo_ld.pdf, id=154, 517.40427pt x 407.44408pt>
 File: figures/marshak_holo_ld.pdf Graphic file (type pdf)
 
 <use figures/marshak_holo_ld.pdf>
-Package pdftex.def Info: figures/marshak_holo_ld.pdf used on input line 980.
+Package pdftex.def Info: figures/marshak_holo_ld.pdf used on input line 815.
 (pdftex.def)             Requested size: 277.15372pt x 218.2633pt.
 
-<figures/blading.pdf, id=165, 495.8525pt x 392.46625pt>
+<figures/blading.pdf, id=155, 495.8525pt x 392.46625pt>
 File: figures/blading.pdf Graphic file (type pdf)
 
 <use figures/blading.pdf>
-Package pdftex.def Info: figures/blading.pdf used on input line 985.
+Package pdftex.def Info: figures/blading.pdf used on input line 820.
 (pdftex.def)             Requested size: 277.15372pt x 219.36638pt.
 
-<figures/marshak_holo_lumped.pdf, id=166, 503.8825pt x 393.47pt>
+<figures/marshak_holo_lumped.pdf, id=156, 503.8825pt x 393.47pt>
 File: figures/marshak_holo_lumped.pdf Graphic file (type pdf)
 
 <use figures/marshak_holo_lumped.pdf>
-Package pdftex.def Info: figures/marshak_holo_lumped.pdf used on input line 990
+Package pdftex.def Info: figures/marshak_holo_lumped.pdf used on input line 825
 .
 (pdftex.def)             Requested size: 277.15372pt x 216.42116pt.
- [15 <./figures/twomat_full.pdf>] [16 <./figures/marshak_holo_ld.pdf> <./figure
+ [12 <./figures/twomat_full.pdf>] [13 <./figures/marshak_holo_ld.pdf> <./figure
 s/blading.pdf>]
 No file mnc2015.bbl.
-[17 <./figures/marshak_holo_lumped.pdf>] [18
+[14 <./figures/marshak_holo_lumped.pdf>]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 854.
 
-] [19]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 1191
-.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-LaTeX Font Info:    Try loading font information for OMS+pcr on input line 1191
-.
+LaTeX Font Info:    Try loading font information for OMS+pcr on input line 854.
+
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omspcr.fd
 File: omspcr.fd 
 )
 LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1191.
-
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 854.
 Package epstopdf Info: Source file: <./figure.eps>
 (epstopdf)                    date: 2002-08-08 09:36:30
 (epstopdf)                    size: 5624 bytes
@@ -642,45 +640,41 @@ Package epstopdf Info: Source file: <./figure.eps>
 (epstopdf)                    size: 10094 bytes
 (epstopdf)             Command: <repstopdf --outfile=./figure-eps-converted-to.
 pdf ./figure.eps>
-(epstopdf)             \includegraphics on input line 1213.
+(epstopdf)             \includegraphics on input line 876.
 Package epstopdf Info: Output file is already uptodate.
 
-<./figure-eps-converted-to.pdf, id=362, 361.35pt x 252.945pt>
+<./figure-eps-converted-to.pdf, id=346, 361.35pt x 252.945pt>
 File: ./figure-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./figure-eps-converted-to.pdf>
-Package pdftex.def Info: ./figure-eps-converted-to.pdf used on input line 1213.
-
+Package pdftex.def Info: ./figure-eps-converted-to.pdf used on input line 876.
 (pdftex.def)             Requested size: 216.81168pt x 151.76816pt.
- [20]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 1224
-.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 887.
+
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1224.
-
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 887.
 
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 1234.
+(amsmath)                 on input line 897.
 
-[21 <./figure-eps-converted-to.pdf>] [22] (./mnc2015.aux)
+[15
+
+ <./figure-eps-converted-to.pdf>] [16] (./mnc2015.aux)
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: There were multiply-defined labels.
-
  ) 
 Here is how much of TeX's memory you used:
- 11232 strings out of 493304
- 203871 string characters out of 6139871
- 252251 words of memory out of 5000000
- 14394 multiletter control sequences out of 15000+600000
+ 11229 strings out of 493304
+ 203849 string characters out of 6139871
+ 252139 words of memory out of 5000000
+ 14391 multiletter control sequences out of 15000+600000
  23943 words of font info for 57 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  56i,14n,55p,1268b,313s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -700,10 +694,10 @@ texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/ut
 mri8a.pfb>
-Output written on mnc2015.pdf (22 pages, 322056 bytes).
+Output written on mnc2015.pdf (16 pages, 295092 bytes).
 PDF statistics:
- 432 PDF objects out of 1000 (max. 8388607)
- 169 compressed objects within 2 object streams
+ 413 PDF objects out of 1000 (max. 8388607)
+ 156 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  48 words of extra memory for PDF output out of 10000 (max. 10000000)
 
