@@ -229,7 +229,6 @@ equation, using a linear-discontinuous (LD) finite-element (FE) spatial
 discretization, such that the HO and LO solutions are consistent upon convergence.
 Herein we describe the algorithm and present results for two test problems.
 
-\Section{The Low-Order System}
 
 For simplicity, our HOLO method will use a backward Euler discretization in time, as
 well as constant specific heats and cell-wise constant opacities. The time discretized
@@ -243,10 +242,57 @@ equations are
 \end{align}
 where $\Delta t$ is the time step size and the superscript $n$ is used to denote
 the $n$-th time step.  
-
+\Subsection{Overview of the HOLO Algorithm}
 
 In the HOLO context, the LO solver models the physical scattering and
-resolves the material energy spatial distribution.  The LO equations are formed from
+resolves the material energy spatial distribution.  
+The solution to the LO system is used to construct a spatially LD representation of
+the scattering and emission sources on the right hand side of Eq.~\eqref{ho_trans}.  This defines a fixed-source, pure absorber
+transport problem for the HO operator. This transport problem, which we refer to as
+the HO problem, defines a characteristic method that uses MC to
+invert the continuous streaming plus removal operator with an LD representation of
+sources. We will solve the HO problem using ECMC with adaptive mesh
+refinement. The ECMC algorithm allows for the statistical noise in the MC
+solution to be efficiently reduced to any desired precision within the limits of
+computational memory.  Thus, the HO solve produces a
+globally-accurate, LD representation of the angular intensity
+$\tilde{I}(x,\mu)$.  
+
+Once computed, the projected LD
+angular intensity $\tilde{I}(x,\mu)$ is used to evaluate the LO
+consistency parameters for the next LO solve.  Since there is a global, functional representation of
+the angular intensity,  LO parameters are estimated using quadrature and do not require additional tallies.  The HO solver does not
+produce a new temperature in the thermal radiative transport (TRT) context; it is
+only used to estimate the angular parameters in the LO solution, which eliminates
+typical operator splitting stability issues that require linearization of the emission source.
+ The solution for $T(x)$ is only estimated via the LO solution.
+
+One HOLO fixed-point iteration denotes the process of an ECMC solve of the HO problem to estimate LO parameters, based on
+the current LO estimate of sources, followed by a solution of the 
+LO system for $T^{n+1}(x)$ and $\phi^{n+1}(x)$.
+The HOLO iterations can be performed until the LO solutions are converged to a
+desired precision, within each time step. The HOLO convergence criteria is based on
+the convergence of the FE representation of $\phi^{n+1}(x)$ and $T^{n+1}(x)$ between successive HOLO iterations
+$k$.  
+The consistency terms force the HO
+and LO solutions for $\phi^{n+1}(x)$ to be consistent to the order of the current HOLO
+iteration error.   The HOLO algorithm, for the $n$-th time step, is
+\begin{enumerate}
+    \item Perform a diffusion-equivalent solve of the LO system to produce $T^{n+1,0}(x)$
+        and $\phi^{n+1,0}(x)$ 
+\item Solve the HO system for $\tilde{I}^{n+1,k+1/2}(x,\mu)$ using ECMC, based on the current
+    LO estimate of the emission and scattering sources.%$\sigma_s(T^k)\phi^{k}$ and $B(T)^{k}$.
+\item Compute LO consistency parameters with $\tilde{I}^{n+1,k+1/2}$.  
+\item Solve the LO system using HO consistency parameters to produce a new
+    estimate of $\phi^{n+1,k+1}$ and $T^{n+1,k+1}$ at $t_{n+1}$.
+\item Repeat 2 -- 4 until convergence is achieved.
+\item Move to the next time step.
+\end{enumerate}
+
+\Section{The Low-Order System}
+
+
+The LO equations are formed from
 angular integrals and spatial moments of
 Eq.~\eqref{lo_mat} and Eq.~\eqref{ho_trans}, formed over a finite element mesh. The
 LO equations are similar to those used in the
@@ -565,50 +611,6 @@ they are set to S$_2$-equivalent terms.  This may lead to artificially fast
 wave-speeds in certain cells.  Future work will include using a different trial space
 in these cells that is strictly positive.  
 
-\Subsection{The High-Order Low-Order Algorithm}
-
-The solution to the LO system is used to construct a spatially LD representation of
-the scattering and emission sources on the right hand side of Eq.~\eqref{ho_trans}.  This defines a fixed-source, pure absorber
-transport problem for the HO operator. This transport problem, which we refer to as
-the HO problem, defines a characteristic method that uses MC to
-invert the continuous streaming plus removal operator with an LD representation of
-sources. We will solve the HO problem using ECMC with adaptive mesh
-refinement. The ECMC algorithm allows for the statistical noise in the MC
-solution to be efficiently reduced to any desired precision within the limits of
-computational memory.  Thus, the HO solve produces a
-globally-accurate, LD representation of the angular intensity
-$\tilde{I}(x,\mu)$.  
-
-Once computed, the projected LD
-angular intensity $\tilde{I}(x,\mu)$ is used to evaluate the LO
-consistency parameters for the next LO solve.  Since there is a global, functional representation of
-the angular intensity,  LO parameters are estimated using quadrature and do not require additional tallies.  The HO solver does not
-produce a new temperature in the thermal radiative transport (TRT) context; it is
-only used to estimate the angular parameters in the LO solution, which eliminates
-typical operator splitting stability issues that require linearization of the emission source.
- The solution for $T(x)$ is only estimated via the LO solution.
-
-One HOLO fixed-point iteration denotes the process of an ECMC solve of the HO problem to estimate LO parameters, based on
-the current LO estimate of sources, followed by a solution of the 
-LO system for $T^{n+1}(x)$ and $\phi^{n+1}(x)$.
-The HOLO iterations can be performed until the LO solutions are converged to a
-desired precision, within each time step. The HOLO convergence criteria is based on
-the convergence of the FE representation of $\phi^{n+1}(x)$ and $T^{n+1}(x)$ between successive HOLO iterations
-$k$.  
-The consistency terms force the HO
-and LO solutions for $\phi^{n+1}(x)$ to be consistent to the order of the current HOLO
-iteration error.   The HOLO algorithm, for the $n$-th time step, is
-\begin{enumerate}
-    \item Perform a diffusion-equivalent solve of the LO system to produce $T^{n+1,0}(x)$
-        and $\phi^{n+1,0}(x)$ 
-\item Solve the HO system for $\tilde{I}^{n+1,k+1/2}(x,\mu)$ using ECMC, based on the current
-    LO estimate of the emission and scattering sources.%$\sigma_s(T^k)\phi^{k}$ and $B(T)^{k}$.
-\item Compute LO consistency parameters with $\tilde{I}^{n+1,k+1/2}$.  
-\item Solve the LO system using HO consistency parameters to produce a new
-    estimate of $\phi^{n+1,k+1}$ and $T^{n+1,k+1}$ at $t_{n+1}$.
-\item Repeat 2 -- 4 until convergence is achieved.
-\item Move to the next time step.
-\end{enumerate}
 
 \Section{Results}
 
